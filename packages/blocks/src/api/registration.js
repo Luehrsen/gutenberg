@@ -198,6 +198,11 @@ export function unregisterBlockType( name ) {
  * @param {string} name Block name.
  */
 export function setUnknownTypeHandlerName( name ) {
+	deprecated( 'setUnknownTypeHandlerName', {
+		plugin: 'Gutenberg',
+		version: '3.7',
+		alternative: 'setNonblockHandlerName and setUnregisteredTypeHandlerName',
+	} );
 	dispatch( 'core/blocks' ).setFallbackBlockName( name );
 }
 
@@ -209,6 +214,44 @@ export function setUnknownTypeHandlerName( name ) {
  */
 export function getUnknownTypeHandlerName() {
 	return select( 'core/blocks' ).getFallbackBlockName();
+}
+
+/**
+ * Assigns name of block handling unknown block types.
+ *
+ * @param {string} name Block name.
+ */
+export function setNonblockHandlerName( name ) {
+	dispatch( 'core/blocks' ).setNonblockFallbackBlockName( name );
+}
+
+/**
+ * Retrieves name of block handling unknown block types, or undefined if no
+ * handler has been defined.
+ *
+ * @return {?string} Blog name.
+ */
+export function getNonblockHandlerName() {
+	return select( 'core/blocks' ).getNonblockFallbackBlockName();
+}
+
+/**
+ * Assigns name of block handling unknown block types.
+ *
+ * @param {string} name Block name.
+ */
+export function setUnregisteredTypeHandlerName( name ) {
+	dispatch( 'core/blocks' ).setUnregisteredFallbackBlockName( name );
+}
+
+/**
+ * Retrieves name of block handling unknown block types, or undefined if no
+ * handler has been defined.
+ *
+ * @return {?string} Blog name.
+ */
+export function getUnregisteredTypeHandlerName() {
+	return select( 'core/blocks' ).getUnregisteredFallbackBlockName();
 }
 
 /**

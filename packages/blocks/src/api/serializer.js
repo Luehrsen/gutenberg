@@ -13,7 +13,12 @@ import isShallowEqual from '@wordpress/is-shallow-equal';
 /**
  * Internal dependencies
  */
-import { getBlockType, getUnknownTypeHandlerName } from './registration';
+import {
+	getBlockType,
+	getUnknownTypeHandlerName,
+	getNonblockHandlerName,
+	getUnregisteredTypeHandlerName,
+} from './registration';
 import BlockContentProvider from '../block-content-provider';
 
 /**
@@ -205,7 +210,7 @@ export function getBlockContent( block ) {
 	// otherwise have no access to its original content and content loss would
 	// still occur.
 	let saveContent = block.originalContent;
-	if ( block.isValid || block.innerBlocks.length ) {
+	if ( blockType && ( block.isValid || block.innerBlocks.length ) ) {
 		try {
 			saveContent = getSaveContent( blockType, block.attributes, block.innerBlocks );
 		} catch ( error ) {}
@@ -261,6 +266,8 @@ export function serializeBlock( block ) {
 	const saveAttributes = getCommentAttributes( block.attributes, blockType );
 
 	switch ( blockName ) {
+		case getNonblockHandlerName():
+		case getUnregisteredTypeHandlerName():
 		case getUnknownTypeHandlerName():
 			return saveContent;
 
